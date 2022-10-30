@@ -4,13 +4,13 @@ env:
 on:
   push:
     paths:
-      - "**"
+      - "hello-chart/**"
       - ".github/workflows/ci.yaml"
     branches:
       - main
   pull_request:
     paths:
-      - "**"
+      - "hello-chart/**"
       - ".github/workflows/ci.yaml"
 
 concurrency:
@@ -33,7 +33,7 @@ jobs:
         uses: helm/chart-testing-action@v2.1.0
 
       - name: Run chart-testing (lint)
-        run: ct lint --charts=$HELM_CHART --validate-maintainers=false
+        run: ct lint --charts=hello-chart/$HELM_CHART --validate-maintainers=false
   release:
     if: ${{ github.ref == 'refs/heads/master' }}
     needs:
@@ -47,5 +47,5 @@ jobs:
 
       - name: Build and upload helm package
         run: |
-          CHART_FILE=$(helm package -d /tmp $HELM_CHART | awk '{print $NF}')
+          CHART_FILE=$(helm package -d /tmp hello-chart/$HELM_CHART | awk '{print $NF}')
 
