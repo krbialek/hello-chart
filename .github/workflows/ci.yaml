@@ -53,5 +53,5 @@ jobs:
       - name: Build and upload helm package
         run: |
           CHART_FILE=$(helm package -d /tmp $HELM_CHART | awk '{print $NF}')
-          helm push $CHART_FILE oci://us-central1-docker.pkg.dev/kb-helm1/helms/
+          helm push $CHART_FILE oci://us-central1-docker.pkg.dev/mendel-health/softwares/
 
