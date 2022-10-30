@@ -44,10 +44,14 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
+      - name: Login to GCR
+        uses: docker/login-action@v2
+        with:
+          registry: eu-central2-docker.pkg.dev
+          username: _json_key
+          password: ${{ secrets.REPO_CREDS }}
       - name: Build and upload helm package
         run: |
           CHART_FILE=$(helm package -d /tmp $HELM_CHART | awk '{print $NF}')
-          ${{ secrets.REPO_CREDS }} | helm registry login https://eu-central2-docker.pkg.dev/kb-helm1/helms -u _json_key --password-stdin
           helm push $CHART_FILE oci://eu-central2-docker.pkg.dev/kb-helm1/helms/
 
