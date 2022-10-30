@@ -49,5 +49,5 @@ jobs:
         run: |
           CHART_FILE=$(helm package -d /tmp $HELM_CHART | awk '{print $NF}')
           helm registry login -u _json_key --password-stdin https://eu-central2-docker.pkg.dev
-          helm push hello-chart-0.1.0.tgz oci://eu-central2-docker.pkg.dev/kb-helm1/helms/
+          helm push $CHART_FILE oci://eu-central2-docker.pkg.dev/kb-helm1/helms/
 
