@@ -48,4 +48,6 @@ jobs:
       - name: Build and upload helm package
         run: |
           CHART_FILE=$(helm package -d /tmp $HELM_CHART | awk '{print $NF}')
+          cat {secrets.REPO_CREDS} | helm registry login -u _json_key --password-stdin https://eu-central2-docker.pkg.dev
+
 
