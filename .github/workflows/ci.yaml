@@ -1,0 +1,51 @@
+name: Build and publish helm chart test
+env:
+  HELM_CHART: hello-chart
+on:
+  push:
+    paths:
+      - "**"
+      - ".github/workflows/ci.yaml"
+    branches:
+      - main
+  pull_request:
+    paths:
+      - "**"
+      - ".github/workflows/ci.yaml"
+
+concurrency:
+  group: ${{ github.ref }}-helm
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v1
+
+      - name: Setup python
+        uses: actions/setup-python@v2
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.1.0
+
+      - name: Run chart-testing (lint)
+        run: ct lint --charts=$HELM_CHART --validate-maintainers=false
+  release:
+    if: ${{ github.ref == 'refs/heads/master' }}
+    needs:
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Build and upload helm package
+        run: |
+          CHART_FILE=$(helm package -d /tmp $HELM_CHART | awk '{print $NF}')
+
