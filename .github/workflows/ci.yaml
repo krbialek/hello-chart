@@ -35,7 +35,7 @@ jobs:
       - name: Run chart-testing (lint)
         run: ct lint --charts=$HELM_CHART --validate-maintainers=false
   release:
-    if: ${{ github.ref == 'refs/heads/main' }} && ${{ github.workflow == 'Build and publish helm chart test' }}
+    if: ${{ github.ref == 'refs/heads/main' }} && ${{ github.workflow == 'Build and publish helm chart tes' }}
     needs:
       - test
     runs-on: ubuntu-latest
