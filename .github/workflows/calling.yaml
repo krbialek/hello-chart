@@ -1,0 +1,20 @@
+
+name: This workflow will call another one
+
+on:
+  workflow_dispatch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Emit repo dispatch
+        uses: mvasigh/dispatch-action@main
+        with:
+          repo: hello-chart
+          owner: krbialek
+          event_type: say_hello
+          message: |
+            { 
+              "msg":"Triggered from external workflow"
+            }
