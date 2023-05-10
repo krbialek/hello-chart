@@ -11,4 +11,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Say hello
-        run: echo "Hello: ${{ github.event.client_payload.message.msg }}"
+        run: echo "Hello ${{ env.MESSAGE }}"
