@@ -2,7 +2,7 @@
 name: This is callable workflow
 env:
   HELM_CHART: hello-chart
-  MESSAGE: ${{ github.event.client_payload.message. }}
+  MESSAGE: ${{ github.event.client_payload.message.msg }}
 on:
   repository_dispatch
 
@@ -11,4 +11,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Say hello
-        run: echo "Hello ${{ env.MESSAGE }}"
+        run: echo "Hello: ${{ env.MESSAGE }}"
